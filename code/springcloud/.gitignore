@@ -6,3 +6,6 @@
 ## idea
 **/.idea/
 *.iml
+
+## project
+**/test-something/

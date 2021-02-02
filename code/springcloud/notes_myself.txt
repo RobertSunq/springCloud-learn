@@ -1,0 +1,2 @@
+热部署：
+    a. Shift+Control+Alt+/  , b. Registry , c. compiler.automake.allow.when.app.running  d. actionSystem.assertFocusAccessFromEdt
