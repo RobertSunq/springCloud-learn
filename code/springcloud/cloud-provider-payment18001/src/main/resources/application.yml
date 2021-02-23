@@ -4,7 +4,7 @@ server:
 
 spring:
   application:
-    name: cloud-payment-service
+    name: cloud-payment-service  # 在Eureka中入注的服务名
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource        #当前数据源操作类型
     driver-class-name: org.gjt.mm.mysql.Driver            #mysql驱动包
@@ -17,6 +17,16 @@ spring:
     # 新建数据库并直接赋予权限：
                         # grant all on springcloud_dev.* TO 'springcloud'@'%' IDENTIFIED BY '123456'; flush privileges;
 
+
+eureka:
+  client:
+    # 表示是否将自己注册EurekaServer默认为true
+    register-with-eureka: true
+    # 是否从EurekaServer抓取已有的注册信息，默认为true。单节点无所谓，集群必须设置为true才能配合ribbon使用负载均衡
+    fetchRegistry: true
+    service-url:
+      # 设置与 Eureka Server 交互的地址，查询服务 和 注册服务都依赖这个地址
+      defaultZone: http://localhost:17001/eureka/
 
 
 mybatis:

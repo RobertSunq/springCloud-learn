@@ -2,6 +2,23 @@ server:
   port: 180
 
 
+spring:
+  application:
+    name: cloud-consumer-order  # 在Eureka中入注的服务名
+
+eureka:
+  client:
+    # 表示是否将自己注册EurekaServer默认为true
+    register-with-eureka: true
+    # 是否从EurekaServer抓取已有的注册信息，默认为true。单节点无所谓，集群必须设置为true才能配合ribbon使用负载均衡
+    fetchRegistry: true
+    service-url:
+      # 设置与 Eureka Server 交互的地址，查询服务 和 注册服务都依赖这个地址
+      defaultZone: http://localhost:17001/eureka/
+
+
+
+
 
 
 

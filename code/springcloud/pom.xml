@@ -26,6 +26,7 @@
         <module>test-something</module>
         <module>cloud-consumer-order180</module>
         <module>cloud-api-commons</module>
+        <module>cloud-eureka-server17001</module>
     </modules>
 
     <!-- 统一管理jar包版本，为pom定义一些常量，在pom中的其它地方可以直接引用 -->
@@ -39,6 +40,8 @@
         <mysql.version>5.1.47</mysql.version>
         <druid.version>1.1.16</druid.version>
         <mybatis.spring.boot.version>1.3.0</mybatis.spring.boot.version>
+        <!-- 依赖版本 -->
+        <spring-boot.version>2.3.2.RELEASE</spring-boot.version>
     </properties>
 
     <!-- 子模块继承之后，提供作用：锁定版本+子modlue不用写groupId和version 。一般用于父工程，只做声明而不做实现引入，在子工程中声明的才会引入-->
@@ -141,6 +144,7 @@
                 <!--插件在仓库里的artifact ID-->
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <!--被使用的插件的版本（或版本范围)-->
+                <version>${spring-boot.version}</version>
                 <!--<version>****</version>-->
                 <configuration>
                     <fork>true</fork>
