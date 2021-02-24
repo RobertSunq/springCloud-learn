@@ -25,6 +25,30 @@
 
 
 
+### IDEA的热部署设置（自动重启项目）
+
+```python
+# 快捷键
+a. Shift+Control+Alt+/ 
+# 选择标签
+b. Registry , 
+# 勾选下面两个标签
+c. compiler.automake.allow.when.app.running  
+d. actionSystem.assertFocusAccessFromEdt
+```
+
+![registry](.\static\picture\registry.png)
+
+
+
+![registry00](.\static\picture\registry00.png)
+
+
+
+
+
+
+
 
 
 

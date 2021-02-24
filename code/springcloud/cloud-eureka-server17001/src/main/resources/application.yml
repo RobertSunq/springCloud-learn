@@ -1,15 +1,38 @@
+####### 单体版设置
+
+
+#server:
+#  port: 17001
+#
+#eureka:
+#  instance:
+#    hostname: localhost  # eureka 服务器的实例名称
+#
+#  client:
+#    # false 代表不向服务注册中心注册自己，因为它本身就是服务中心
+#    register-with-eureka: false
+#    # false 代表自己就是服务注册中心，自己的作用就是维护服务实例，并不需要去检索服务
+#    fetch-registry: false
+#    service-url:
+#      # 设置与 Eureka Server 交互的地址，查询服务 和 注册服务都依赖这个地址
+#      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
+
+
+
+###### 集群版设置
+
+
 server:
   port: 17001
 
 eureka:
   instance:
-    hostname: localhost  # eureka 服务器的实例名称
+    hostname: eureka17001.com  # eureka 服务器的实例地址
 
   client:
-    # false 代表不向服务注册中心注册自己，因为它本身就是服务中心
     register-with-eureka: false
-    # false 代表自己就是服务注册中心，自己的作用就是维护服务实例，并不需要去检索服务
     fetch-registry: false
     service-url:
-      # 设置与 Eureka Server 交互的地址，查询服务 和 注册服务都依赖这个地址
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      # 注意这里的地址，这是搭建集群的关键，该地址为另一个集群的交互的地址
+      defaultZone: http://eureka17002.com:17002/eureka/

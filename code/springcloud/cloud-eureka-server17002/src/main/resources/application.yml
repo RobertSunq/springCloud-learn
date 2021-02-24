@@ -1,0 +1,16 @@
+###### 集群版设置
+
+
+server:
+  port: 17002
+
+eureka:
+  instance:
+    hostname: eureka17002.com  # eureka 服务器的实例地址
+
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      ## 一定要注意这里的地址，这是搭建集群的关键
+      defaultZone: http://eureka17001.com:17001/eureka/

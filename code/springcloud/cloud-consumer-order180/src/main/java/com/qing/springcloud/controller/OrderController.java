@@ -17,8 +17,13 @@ import javax.annotation.Resource;
 @Slf4j
 @RequestMapping("/consumer/payment")
 public class OrderController {
-
-    public static final String PAYMENT_UTL = "http://localhost:18001";
+    /**
+     * 单体版写死无影响
+     * public static final String PAYMENT_UTL = "http://localhost:18001";
+     *
+     * 集群版服务提供者的地址应该为 Eureka上的服务名，且无需端口号
+     */
+    public static final String PAYMENT_UTL = "http://CLOUD-PROVIDER-SERVICE";
 
     @Resource
     private RestTemplate restTemplate;
@@ -26,11 +31,11 @@ public class OrderController {
     @GetMapping("/create")
     @ResponseBody
     public CommonResult<Payment> create( Payment payment){
-        return restTemplate.postForObject(PAYMENT_UTL+"/payment/create",payment,CommonResult.class);
+        return restTemplate.postForObject(PAYMENT_UTL+"/provider/payment/create",payment,CommonResult.class);
     }
 
     @GetMapping("/getPaymentById/{id}")
     public CommonResult<Payment> getPaymentById(@PathVariable("id") String id){
-        return restTemplate.getForObject(PAYMENT_UTL+"/payment/getPaymentById?id="+id,CommonResult.class);
+        return restTemplate.getForObject(PAYMENT_UTL+"/provider/payment/getPaymentById?id="+id,CommonResult.class);
     }
 }
