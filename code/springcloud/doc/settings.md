@@ -14,5 +14,43 @@ eureka集群的原理：相互注册、相互守望
 
 
 
+两个不同端口号上的yml文件也要进行对应修改：
 
+17001端口服务的application.yml文件
+
+```yml
+server:
+  port: 17001
+
+eureka:
+  instance:
+    hostname: eureka17001.com  # eureka 服务器的实例地址
+
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+    ## 一定要注意这里的地址，这是搭建集群的关键
+      defaultZone: http://eureka17002.com:17002/eureka/
+```
+
+
+
+17002端口服务的application.yml文件
+
+```yml
+server:
+  port: 17001
+
+eureka:
+  instance:
+    hostname: eureka17002.com  # eureka 服务器的实例地址
+
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+    ## 一定要注意这里的地址，这是搭建集群的关键
+      defaultZone: http://eureka17001.com:17001/eureka/
+```
 
