@@ -27,6 +27,38 @@
 
 ### IDEA的热部署设置（自动重启项目）
 
+父工出pom文件种添加：
+
+```xml
+<build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <fork>true</fork>
+          <addResources>true</addResources>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+```
+
+模块pom文件中添加
+
+```xml
+<dependency>    
+    <groupId>org.springframework.boot</groupId>    
+    <artifactId>spring-boot-devtools</artifactId>    
+    <scope>runtime</scope>    
+    <optional>true</optional>
+</dependency>
+```
+
+setting中设置
+
+![registry01](E:\Study\20210223\springCloud\code\springcloud\doc\static\picture\registry01.png)
+
 ```python
 # 快捷键
 a. Shift+Control+Alt+/ 
