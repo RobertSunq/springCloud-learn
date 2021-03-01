@@ -54,3 +54,26 @@ eureka:
       defaultZone: http://eureka17001.com:17001/eureka/
 ```
 
+
+
+### cneos7上启动zookeeper
+
+***注：默认临时节点***
+
+```python
+# 进入到zookeeper安装目录的bin文件
+# 关闭防火墙
+$ 	systemctl stop firewalld
+# 启动zookeeper
+$	./zkServer.sh start
+$	./zkCli.sh
+# 查看状态
+[zk: localhost:2181(CONNECTED) 1] 	ls /
+[zk: localhost:2181(CONNECTED) 1] 	get /zookeeper
+# 查看服务
+[zk: localhost:2181(CONNECTED) 1] 	ls /zookeeper
+[zk: localhost:2181(CONNECTED) 1]	ls /services
+[zk: localhost:2181(CONNECTED) 1]	ls /services/cloud-provider-payment
+```
+
+![zookeeper00](.\static\picture\zookeeper00.png)

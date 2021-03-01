@@ -48,6 +48,20 @@
 
 
 
+## zookeeper
+
+注：**关于 zookeeper 的集群搭建，目前使用较少，而且在 yml 文件中的配置也是类似，以列表形式写入 zookeeper 的多个地址即可，而且zookeeper 集群，在 hadoop的笔记中也有记录。总而言之，只要配合zookeeper集群，以及yml文件的配置就能完成集群搭建**
+
+
+
+
+
+
+
+
+
+
+
 
 
 
