@@ -54,9 +54,13 @@
 
 
 
+## consul
 
-
-
+```python
+# 以开发模式启动：
+consul agent -dev
+# 启动后前端地址：http://localhost:8500/
+```
 
 
 
@@ -85,6 +89,12 @@ https://blog.csdn.net/qq_44714603/article/details/88829423
 #### [zookeeper](http://archive.apache.org/dist/zookeepe):http://archive.apache.org/dist/zookeepe
 
 
+
+#### [consul](https://www.consul.io/downloads)：https://www.consul.io/downloads
+
+#### [consul中文文档](https://www.springcloud.cc/spring-cloud-consul.html)：https://www.springcloud.cc/spring-cloud-consul.html
+
+#### [consul安装视频教程](https://learn.hashicorp.com/tutorials/consul/get-started-install)：https://learn.hashicorp.com/tutorials/consul/get-started-install
 
 
 

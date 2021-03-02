@@ -1,0 +1,70 @@
+#设置端口号
+server:
+  port: 8080    #设置端口号
+
+  servlet:
+    # Context path of the application. 应用的上下文路径，也可以称为项目路径，是构成url地址的一部分 localhost:8080/demo/xxxxxx
+    context-path: /demo
+
+    #    jsp 热部署  不需要重启项目 jsp中的修改内容就会生效
+    jsp:
+      init-parameters:
+        development: true
+
+
+#添加数据源
+spring:
+  # 指定活跃的配置文件  生效的为：application-{profile}.yml  (application-dev.yml)
+  profiles:
+    active: dev
+
+  #设置项目名
+  application:
+    name: service
+
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver     #mysql驱动包
+    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf8    # 数据库链接
+    username: root    # 账号
+    password: root    # 密码
+    # 连接阿里巴巴的数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+
+
+  #    视图解析器  return "index" 默认转发 逻辑视图名 通过视图解析器 会给逻辑视图名拼接前缀和后缀 index.jsp
+  #    return "redirect:/index.jsp"
+  mvc:
+    view:
+      prefix: /     # 配置前缀
+      suffix: .jsp    # 配置后缀
+  #设置时间响应类型
+  jackson:    # 时间格式化，date类型字段的序列化和反序列化
+    date-format: yyyy-MM-dd
+    time-zone: GMT+8
+  #上传文件
+  resources:
+    static-locations: file:${img-path}
+  #设置上传文件的大小
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+#配置文件上传目录
+img-path: E:\\upload
+#分页插件
+pagehelper:
+  helper-dialect: mysql
+#注册Mapper.xml文件
+mybatis:
+  mapper-locations: classpath:mapper/*.xml #apper.xml扫描路径
+  type-aliases-package: com.qing.springcloud.entities #所有Entity别名类所在包
+# debug模式
+logging:
+  level:
+    root: info
+    com.cmfz: debug
+
+#  ————————————————————————————————————————————————————————————————————————————————————————————————
+#   参考网站：
+#           https://blog.csdn.net/weixin_44675513/article/details/102726696
+#           https://www.hangge.com/blog/cache/detail_2459.html
