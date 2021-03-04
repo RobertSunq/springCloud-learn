@@ -100,6 +100,31 @@ CAP理论的核心是：一个分布式系统不可能同时很好的满足一�
 
 
 
+## Ribbon负载均衡
+
+Spring Cloud Ribbon是基于Netflix Ribbon实现的一套客户端   **负载均衡工具**。
+
+简单的说，Ribbon是NetFlix发布的开源项目，主要功能是提供客户端的软件**负载均衡算法和服务调用**。Ribbon客户端组件提供一系列晚上的配置项如链接超时，重试登。简单的说，就是在配置文件中列出Load Balance（LB）后面所有的机器，Ribbon会自动的帮助你基于某种规则（如简单轮询，随机连接等）去连接这些机器。我们很容易使用Ribbon实现自定义的负载均衡算法。
+
+
+
+![Rebbon00](.\static\picture\Rebbon00.png)
+
+
+
+IRule：根据特定算法中从服务列表中选取一个要访问的服务：
+
+
+
+```python
+# com.netfilx.loadbalancer.RoundRobinRule	轮询
+# com.netfilx.loadbalancer.RandomRule	随机
+# com.netfilx.loadbalancer.RetryRule	先按照RoundRobinRule的策略获取服务，如果获取服务失败则在指定时间内会进行重试，获取可用服务
+# WeightedResponseTimeRule	对RoundRobinRule的扩展，相应速度越快的实列选择权重越大，越容易被选择
+# BestAvailableRule	会先过滤掉由于多次访问故障而处于断路器跳闸状态的服务，然后选择一个并发量最小的服务
+# AvailabilityFilteringRule	先过滤故障实例，再选择并发较小的实例
+# ZoneAvoidanceRule	默认规则，复合判断server所在区域的性能和server的可用性选择服务器
+```
 
 
 
@@ -109,6 +134,7 @@ CAP理论的核心是：一个分布式系统不可能同时很好的满足一�
 
 
 
+注：在（spring-cloud-starter-netflix-eureka-server）中已经集成引入了Ribbon。
 
 
 
@@ -118,7 +144,11 @@ CAP理论的核心是：一个分布式系统不可能同时很好的满足一�
 
 
 
+## ResTemplate
 
+
+
+![ResTemplate00](.\static\picture\ResTemplate00.png)
 
 
 

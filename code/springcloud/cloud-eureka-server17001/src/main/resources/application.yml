@@ -36,7 +36,7 @@ eureka:
     service-url:
       # 注意这里的地址，这是搭建集群的关键，该地址为另一个集群的交互的地址
       defaultZone: http://eureka17002.com:17002/eureka/
-  server:
-    # 关闭Eurka自我保护机制，保证及时清理不健康的服务
-    enable-self-preservation: true
-    eviction-interval-timer-in-ms: 2000 # 单位：ms
+#  server:
+#    # 关闭Eurka自我保护机制，保证及时清理不健康的服务
+#    enable-self-preservation: true
+#    eviction-interval-timer-in-ms: 2000 # 单位：ms
