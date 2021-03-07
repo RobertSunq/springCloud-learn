@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author: sunQB
@@ -56,30 +57,43 @@ public class PaymentController {
 
     /**
      * 服务清单列表
+     *
      * @return Object
      */
     @GetMapping(value = "/discovery")
-    public Object discovery(){
+    public Object discovery() {
         List<String> services = discoveryClient.getServices();
         // 快捷输入 iter
         for (String service : services) {
-            log.info("***** service : "+service);
+            log.info("***** service : " + service);
         }
         // 获取服务清单列表
         List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PROVIDER-SERVICE");
         for (ServiceInstance instance : instances) {
-            log.info(instance.getServiceId()+"\t"+instance.getHost()+"\t"+instance.getPort()+"\t"+instance.getUri());
+            log.info(instance.getServiceId() + "\t" + instance.getHost() + "\t" + instance.getPort() + "\t" + instance.getUri());
         }
         return this.discoveryClient;
     }
 
     /**
      * 尝试实现负载均衡算法
-     * @return  端口号
+     *
+     * @return 端口号
      */
     @GetMapping(value = "/lb")
-    public String getPaymentLB(){
-        return  serverPort;
+    public String getPaymentLB() {
+        return serverPort;
+    }
+
+    @GetMapping(value = "/timeout")
+    public String paymentTimeout() {
+        // 暂停几秒钟线程
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return serverPort;
     }
 
 }

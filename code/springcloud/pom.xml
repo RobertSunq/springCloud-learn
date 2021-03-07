@@ -33,6 +33,7 @@
         <module>cloud-consumer-zk-order186</module>
         <module>cloud-provider-payment18010_consul</module>
         <module>cloud-consumer-order190-consul</module>
+        <module>cloud-consumer-order195-feign</module>
     </modules>
 
     <!-- 统一管理jar包版本，为pom定义一些常量，在pom中的其它地方可以直接引用 -->

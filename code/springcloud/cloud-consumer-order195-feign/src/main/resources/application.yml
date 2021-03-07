@@ -1,0 +1,30 @@
+### feign服务端口号
+server:
+  port: 195
+
+spring:
+  application:
+    name: consul-consumer-payment
+
+eureka:
+  client:
+    # 表示是否将自己注册EurekaServer默认为true
+    register-with-eureka: true
+    # 是否从EurekaServer抓取已有的注册信息，默认为true。单节点无所谓，集群必须设置为true才能配合ribbon使用负载均衡
+    fetchRegistry: true
+    service-url:
+      # 设置与 Eureka Server 交互的地址，查询服务 和 注册服务都依赖这个地址
+      # defaultZone: http://localhost:17001/eureka/     # 单体版
+      defaultZone: http://localhost:17001/eureka/,http://eureka17002.com:17002/eureka/     #集群版
+
+# 设置feign客户端超时时间（OpenFeign默认支持ribbon）（默认超时时间是1秒钟）
+ribbon:
+  # 指的是建立链接所用的时间，适用于网络状况正常的情况下，两端链接所用的时间（单位：ms）
+  ReadTimeout: 5000
+  # 指的是建立连接后从服务器读取到可用资源所用的时间（单位：ms）
+  ConnecTimeout: 5000
+
+logging:
+  level:
+    # feign日志以什么级别监控那个接口
+    com.qing.springcloud.service.PaymentFeignService: debug
