@@ -29,7 +29,6 @@ public class PaymentController {
     private String serverPort;
 
     @Resource
-
     private DiscoveryClient discoveryClient;
 
     @PostMapping(value = "/create")
@@ -66,11 +65,21 @@ public class PaymentController {
         for (String service : services) {
             log.info("***** service : "+service);
         }
+        // 获取服务清单列表
         List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PROVIDER-SERVICE");
         for (ServiceInstance instance : instances) {
             log.info(instance.getServiceId()+"\t"+instance.getHost()+"\t"+instance.getPort()+"\t"+instance.getUri());
         }
         return this.discoveryClient;
+    }
+
+    /**
+     * 尝试实现负载均衡算法
+     * @return  端口号
+     */
+    @GetMapping(value = "/lb")
+    public String getPaymentLB(){
+        return  serverPort;
     }
 
 }

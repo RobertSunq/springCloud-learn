@@ -112,7 +112,7 @@ Spring Cloud Ribbon是基于Netflix Ribbon实现的一套客户端   **负载均
 
 
 
-IRule：根据特定算法中从服务列表中选取一个要访问的服务：
+核心组件IRule：根据特定算法中从服务列表中选取一个要访问的服务：
 
 
 
@@ -128,9 +128,11 @@ IRule：根据特定算法中从服务列表中选取一个要访问的服务：
 
 
 
+负载均衡算法：rest接口第几次请求数 % 服务器集群总数量 = 实际调用服务器位置下标， 每次服务重启后rest接口计数从1 开始
 
-
-
+```python
+List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PROVIDER-SERVICE");
+```
 
 
 

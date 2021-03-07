@@ -1,0 +1,23 @@
+${AnsiColor.BRIGHT_BLUE}
+                                                                                          
+     QQQQQQQQQ           IIIIIIIIII     NNNNNNNN        NNNNNNNN             GGGGGGGGGGGGG
+   QQ:::::::::QQ         I::::::::I     N:::::::N       N::::::N          GGG::::::::::::G
+ QQ:::::::::::::QQ       I::::::::I     N::::::::N      N::::::N        GG:::::::::::::::G
+Q:::::::QQQ:::::::Q      II::::::II     N:::::::::N     N::::::N       G:::::GGGGGGGG::::G
+Q::::::O   Q::::::Q        I::::I       N::::::::::N    N::::::N      G:::::G       GGGGGG
+Q:::::O     Q:::::Q        I::::I       N:::::::::::N   N::::::N     G:::::G              
+Q:::::O     Q:::::Q        I::::I       N:::::::N::::N  N::::::N     G:::::G              
+Q:::::O     Q:::::Q        I::::I       N::::::N N::::N N::::::N     G:::::G    GGGGGGGGGG
+Q:::::O     Q:::::Q        I::::I       N::::::N  N::::N:::::::N     G:::::G    G::::::::G
+Q:::::O     Q:::::Q        I::::I       N::::::N   N:::::::::::N     G:::::G    GGGGG::::G
+Q:::::O  QQQQ:::::Q        I::::I       N::::::N    N::::::::::N     G:::::G        G::::G
+Q::::::O Q::::::::Q        I::::I       N::::::N     N:::::::::N      G:::::G       G::::G
+Q:::::::QQ::::::::Q      II::::::II     N::::::N      N::::::::N       G:::::GGGGGGGG::::G
+ QQ::::::::::::::Q       I::::::::I     N::::::N       N:::::::N        GG:::::::::::::::G
+   QQ:::::::::::Q        I::::::::I     N::::::N        N::::::N          GGG::::::GGG:::G
+     QQQQQQQQ::::QQ      IIIIIIIIII     NNNNNNNN         NNNNNNN             GGGGGG   GGGG
+             Q:::::Q                                                                      
+              QQQQQQ                                                                      
+                                                                                          
+${{spring-boot.formatted-version}
+                                                                                          

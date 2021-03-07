@@ -1,13 +1,19 @@
 package com.qing.springcloud.controller;
 
+import com.qing.lb.LoadBalancer;
 import com.qing.springcloud.entities.CommonResult;
 import com.qing.springcloud.entities.Payment;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
+import java.net.URI;
+import java.util.List;
+
 
 /**
  * @author: sunQB
@@ -29,6 +35,12 @@ public class OrderController {
     @Resource
     private RestTemplate restTemplate;
 
+    @Resource
+    private LoadBalancer loadBalancer;
+
+    @Resource
+    private DiscoveryClient discoveryClient;
+
     @GetMapping("/create")
     @ResponseBody
     public CommonResult<Payment> create( Payment payment){
@@ -48,5 +60,17 @@ public class OrderController {
         }else {
             return  new CommonResult<>(444,"操作失败");
         }
+    }
+
+    @GetMapping(value = "/lb")
+    public String getPaymentLB(){
+        List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PROVIDER-SERVICE");
+        if(instances == null || instances.size() <= 0){
+            return null;
+        }
+        ServiceInstance serviceInstance = loadBalancer.instances(instances);
+        URI uri = serviceInstance.getUri();
+        return restTemplate.getForObject(uri+"/provider/payment/lb",String.class);
+
     }
 }
