@@ -142,20 +142,6 @@ List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PROVIDER-S
 
 
 
-## Feign与OpenFeign
-
-![feign00](.\static\picture\feign00.png)
-
-![feign01](.\static\picture\feign01.png)
-
-
-
-
-
-
-
-
-
 
 
 

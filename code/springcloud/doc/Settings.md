@@ -77,14 +77,3 @@ $	./zkCli.sh
 ```
 
 ![zookeeper00](.\static\picture\zookeeper00.png)
-
-
-
-
-
-## GitHub
-
-```python
-git config http.sslVerify "false"  # 忽略SSL证书错误
-```
-
