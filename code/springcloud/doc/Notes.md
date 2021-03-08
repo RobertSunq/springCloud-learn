@@ -146,6 +146,60 @@ List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PROVIDER-S
 
 
 
+## Hystrix服务降级
+
+**服务降级、服务熔断、接近实时的监控**
+
+![hystrix00](.\static\picture\hystrix00.png)
+
+
+
+![hystrix01](.\static\picture\hystrix01.png)
+
+
+
+
+
+#### 服务降级	fallback 
+
+​		服务器忙，请稍后再试，不让客户端等待并立刻返回一个优化提示	||	正常流程运行存在问题，进行记录，之后根据记录数据进行补救。
+
+​		哪些情况：程序运行异常、超时、服务熔断触发服务降级、线程池/信号量打满也会导致服务降级
+
+#### 服务熔断	break 
+
+​		当达到最大服务访问后，直接拒绝访问，然后调用服务降级的方法并返回友好提示
+
+#### 服务限流	flowlimit
+
+​		秒杀高并发等操作，严禁一窝蜂的过来拥挤，大家排队，一秒钟N个，有序进行
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## ResTemplate
 
 
