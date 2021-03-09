@@ -35,6 +35,7 @@
         <module>cloud-consumer-order190-consul</module>
         <module>cloud-consumer-order195-feign</module>
         <module>cloud-provider-payment18015-hystrix</module>
+        <module>cloud-consumer-order196-feign-hystrix</module>
     </modules>
 
     <!-- 统一管理jar包版本，为pom定义一些常量，在pom中的其它地方可以直接引用 -->

@@ -1,0 +1,23 @@
+server:
+  port: 196
+
+spring:
+  application:
+    name: cloud-consumer-order196-feign-hystrix
+
+eureka:
+  client:
+    # 表示是否将自己注册EurekaServer默认为true
+    register-with-eureka: true
+    # 是否从EurekaServer抓取已有的注册信息，默认为true。单节点无所谓，集群必须设置为true才能配合ribbon使用负载均衡
+    fetchRegistry: true
+    service-url:
+      # 设置与 Eureka Server 交互的地址，查询服务 和 注册服务都依赖这个地址
+      defaultZone: http://localhost:17001/eureka/     # 单体版
+#      defaultZone: http://localhost:17001/eureka/,http://eureka17002.com:17002/eureka/     #集群版
+
+
+logging:
+  level:
+    # feign日志以什么级别监控那个接口
+    com.qing.springcloud.service.PaymentFeignService: debug
