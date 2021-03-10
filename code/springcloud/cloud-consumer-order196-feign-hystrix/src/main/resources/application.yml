@@ -21,3 +21,8 @@ logging:
   level:
     # feign日志以什么级别监控那个接口
     com.qing.springcloud.service.PaymentFeignService: debug
+
+
+feign:
+  hystrix:
+    enabled: true
