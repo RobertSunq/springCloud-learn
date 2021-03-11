@@ -1,6 +1,7 @@
 package com.qing.springcloud.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * @author: sunQB
@@ -21,4 +22,8 @@ public interface PaymentService {
      * @return String
      */
     public String paymentInfo_TimeOutHandler(Integer id);
+
+    public String paymentCircuitBreaker(@PathVariable("id") Integer id);
+
+    public String paymentCircuitBreaker_fallback(@PathVariable("id") Integer id);
 }

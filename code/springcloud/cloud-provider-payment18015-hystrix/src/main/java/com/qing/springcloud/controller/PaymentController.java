@@ -19,7 +19,7 @@ import javax.annotation.Resource;
  */
 @RestController
 @Slf4j
-@RequestMapping("/provider/hytrix")
+@RequestMapping("/provider/hystrix")
 public class PaymentController {
 
     @Resource
@@ -40,6 +40,13 @@ public class PaymentController {
     @GetMapping(value = "/timeout/{id}")
     public CommonResult<String> paymentInfo_TimeOut(@PathVariable("id")Integer id){
         String result = paymentService.paymentInfo_TimeOut(id);
+        log.info("********result:\t"+result);
+        return new CommonResult<String>(200,result);
+    }
+
+    @GetMapping(value = "/circuit/{id}")
+    public CommonResult<String> paymentCircuitBreaker(@PathVariable("id")Integer id){
+        String result = paymentService.paymentCircuitBreaker(id);
         log.info("********result:\t"+result);
         return new CommonResult<String>(200,result);
     }
