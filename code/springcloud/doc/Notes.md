@@ -267,9 +267,73 @@ List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PROVIDER-S
 
 
 
+<h4>Hystrix Dashboard</h4>
+
+​		除了隔离以来服务的调用以外，Hystrix还提供了**准实时的调用监控（Hystrix Dashboard）**，Hystrix会秩序地记录所用通过Hystrix发起的请求的执行信息，并以统计报表的形式展示给用户，包括每秒执行多少请求多少成功，多少失败等。Netfix通过Hystrix-metrics-event-stream项目实现了对以上指标的监控。Spring Cloud也提供了Hystrix Dashboard的整合，对健康内容转化成可视化界面。
+
+```python
+# 注：新版本的Hystrix需要在被监控的主启动类中指定监控路径，否则会提示 Unable to connect to Command Metirc Stream 404
+```
 
 
 
+![hystrix04.png](.\static\picture\hystrix04.png)
+
+
+
+
+
+
+
+## Gateway
+
+​		Gateway 是在Spring生态系统上构建的API网关服务，基于Spring 5，Spring Boot 2和Project Reactor等技术。SpringCloud Gateway是基于WebFlux框架实现的，而WebFlux框架底层则使用了高性能的Reactor模式通信框架Netty。
+
+​		Gateway旨在提供一种简单而有效的方式来对API进行路由，以及提供一些强大的过滤功能，例如：熔断、限流、重试等。目标是提供统一的路由方式且基于Filter链的方式提供了网关基本的功能，例如：安全，监控/指标和限流。同时还支持WebSocket
+
+​		Gateway是基于**异步非阻塞模型**上进行开发的，性能方面不需要担心。
+
+
+
+![gateway00](.\static\picture\getaway00.png)
+
+
+
+部分新特性：
+
+![gateway01](.\static\picture\getaway01.png)
+
+
+
+三大核心：**路由------>断言------>过滤**
+
+![gateway03](.\static\picture\getaway03.png)
+
+
+
+![gateway02](.\static\picture\getaway02.png)
+
+
+
+#### 断言规则：
+
+![gateway04](.\static\picture\getaway04.png)
+
+ 
+
+![gateway06](.\static\picture\getaway06.png)
+
+
+
+![gateway07](.\static\picture\getaway07.png)
+
+
+
+![gateway08](.\static\picture\getaway08.png)
+
+
+
+#### 过滤：
 
 
 

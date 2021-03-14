@@ -16,7 +16,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @EnableEurekaClient
 @ComponentScan(basePackages = {"com.qing.springcloud","com.qing.lb"})
-//@RibbonClient(name = "CLOUD-PROVIDER-SERVICE",configuration = MySelfRule.class)
+//@RibbonClient(name = "CLOUD-PROVIDER-SERVICE",configuration = MySelfRule.class)  // 指定Ribbon采用的负载均衡算法
 public class OrderMain180 {
     public static void main(String[] args) {
         SpringApplication.run(OrderMain180.class,args);
