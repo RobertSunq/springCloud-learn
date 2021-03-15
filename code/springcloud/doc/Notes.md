@@ -1,3 +1,5 @@
+
+
 ## Notes
 
 ### springCloud
@@ -334,6 +336,88 @@ List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PROVIDER-S
 
 
 #### 过滤：
+
+
+
+## 分布式系统面临的问题：
+
+#### 配置问题
+
+​		微服务意味着要将单体应用中的业务拆分成一个个自服务，每个服务的粒度相对较小，因此系统中会出现大量的服务。由于每个服务都需要必要的配置信息才能运行，所用一套集中式的、动态的配置管理设施是必不可少的。-----------	SpringCloud Config 配置中心  为微服务架构中的微服务提供集中化的外部配置支持 配置服务器为**各个不同微服务应用**的所有环境提供了**一个中心化的外部配置**。
+
+![config00](.\static\picture\config00.png)
+
+![config01](.\static\picture\config01.png)
+
+
+
+**label:分支（branch）**
+
+**name：服务名**
+
+**profiles：环境（dev/test/prod）**
+
+
+
+![config02](.\static\picture\config02.png)
+
+![config036](.\static\picture\config03.png)
+
+
+
+![config04](.\static\picture\config04.png)
+
+![config05](.\static\picture\config05.png)
+
+
+
+###### bootstrap.yml
+
+![bootstrap00](.\static\picture\bootstrap00.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
