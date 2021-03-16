@@ -13,7 +13,6 @@ spring:
           # 搜索目录
           search-paths:
             - springcloud-config-study
-
           # 默认读取分支
           default-label: master
           force-pull: true
