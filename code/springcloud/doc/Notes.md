@@ -275,6 +275,7 @@ List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PROVIDER-S
 
 ```python
 # 注：新版本的Hystrix需要在被监控的主启动类中指定监控路径，否则会提示 Unable to connect to Command Metirc Stream 404
+# 访问路径：http://localhost:18015/hystrix.stream
 ```
 
 
@@ -375,47 +376,114 @@ List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PROVIDER-S
 
 ![bootstrap00](.\static\picture\bootstrap00.png)
 
+###### 动态刷新问题
+
+> 由于config Server 项目上是动态更新的，但是，client端的项目中的配置，还是之前的，它不能动态更新，必须重启才行，所以需要开启动态刷新
+
+1、引入依赖
+
+```xml
+<!--actuator监控-->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+```
+
+2、在客户端的boostrap中添加注解
+
+```yml
+# 暴露监控端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+```
+
+3、controller添加刷新注解
+
+![config06](.\static\picture\config06.png)
+
+4、同时在需要client端发送一个POST请求进行刷新
+
+> 如 curl -X POST "http://localhost:3355/actuator/refresh"
+
+> 两个必须：1.必须是 POST 请求，2.请求地址：http://localhost:3355/actuator/refresh
+
+注意：这里是刷新哪个config client 就像哪个config client 发送相关请求
+
+但是同时又存在一个问题，就是要向每个微服务发送一次POST请求，当微服务数量庞大，又是一个新的问题。同时也为了可以进行广播，一次通知，处处生效，进行大范围的自动刷新。故可采用消息总线。
+
+#### 消息总线 Bus
+
+支持两种消息代理：RabbitMQ和KafKa
+
+![bus](.\static\picture\bus.png)
+
+
+
+![bus00](.\static\picture\bus00.png)
+
+![bus01.png](.\static\picture\bus01.png)
+
+###### 相关环境配置
+
+> 安装RabbitMQ的依赖环境 Erlang  下载地址： http://erlang.org/download/otp_win64_21.3.exe 
+>
+> 安装RabbitMQ   下载地址： http://dl.bintray.com/rabbitmq/all/rabbitmq-server/3.7.14/rabbitmq-server-3.7.14.exe 
+>
+> 进入 rabbitMQ安装目录的sbin目录下，打开cmd窗口，执行 		rabbitmq-plugins enable rabbitmq_management
+>
+> 访问		http://localhost:15672/		，输入密码和账号：默认都为 guest
+
+
+
+##### 设计思想
+
+1、利用消息总线触发一个**客户端**/bus/refresh，而刷新所有客户端的配置
+
+​		该方案不合适的原因：
+
+​				①	打破了微服务的职责单一性，因为微服务本身是业务模块，它本不应该承担配置刷新的职责。
+
+​				②	破坏了微服务各节点的对等性。
+
+​				③	有一定的局限性。例如，微服务在迁移时，它的网络地址常常会发生变换，此时如果想要做到自动刷新，那会增加更多的修改。
+
+![bus03.png](.\static\picture\bus03.png)
+
+2、利用消息总线触发一个**服务端**ConfigServer的/bus/refresh端点，而刷新所有客户端的配置
+
+![bus02](.\static\picture\bus02.png)
+
+相关配置完成后，修改文件，向config server发送刷新请求
+
+> curl -X POST "http://localhost:3344/actuator/bus-refresh"
+
+注意，之前是向config client 一个个发送请求，但是这次是向 config Server 发送请求，而所有的config client 的配置也都全部更新
 
 
 
 
 
+![bus04](.\static\picture\bus04.png)
 
 
 
+定点通知：
+
+​		指定具体某一个实例生效而不是全部
+
+> ​	公式：http://localhost:配置中心的端口号/actuator/bus-refresh/{destination}
+
+​		/bus/refresh请求不再发送到具体的服务实例上，而是发给config server并通过destination参数类指定需要更新配置的服务或实例
+
+> curl -X POST "http://localhost:3344/actuator/bus-refresh/config-client:3355"  (服务名+端口号)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+![bus05](.\static\picture\bus05.png)
 
 
 

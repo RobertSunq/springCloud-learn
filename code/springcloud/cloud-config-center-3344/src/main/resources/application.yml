@@ -9,13 +9,23 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/Sunqingbao/springcloud-config-study.git
+          uri: http://192.168.1.104:10010/springcloud-study/springcloud-config.git
           # 搜索目录
           search-paths:
-            - springcloud-config-study
+            - springcloud-config
           # 默认读取分支
           default-label: master
           force-pull: true
+          username: springcloudDev
+          password: 12345678
+
+# rabbitmq相关配置
+rabbitmq:
+  host: localhost
+  port: 5672
+  username: guest
+  password: guest
+
 
 eureka:
   client:
@@ -28,6 +38,12 @@ eureka:
        defaultZone: http://localhost:17001/eureka/     # 单体版
 #      defaultZone: http://localhost:17001/eureka/,http://eureka17002.com:17002/eureka/     #集群版
 
+## rabbitmq相关配置，暴露bus刷新配置的端点
+management:
+  endpoints:  # 暴露bus刷新配置的端点
+    web:
+      exposure:
+        include: 'bus-refresh'
 
 
 
