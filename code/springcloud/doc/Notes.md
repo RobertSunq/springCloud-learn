@@ -487,6 +487,84 @@ management:
 
 
 
+## 消息驱动
+
+是什么：
+
+​				屏蔽底层消息中间件的差异，降低切换成本，同意消息的编程模型
+
+![stream00](.\static\picture\stream00.png)
+
+
+
+原理：
+
+​	标准MQ：	
+
+​						1、生产者/消费者之间靠消息媒介传递信息内容——>Message
+
+​						2、消息必须走特定的通道——>消息通道MessageChannel
+
+​						3、消息通道里的消息如何被消费，谁负责收发处理——>消息通道MessageChannel的子接口SubscribableChannel，由MessageHandler消息处理器所订阅。
+
+![stream01](.\static\picture\stream01.png)
+
+![stream02](.\static\picture\stream02.png)
+
+
+
+Stream中的消息通信方式遵循了发布-订阅模式——Topic主题进行广播——（在RabbitMQ中是Exchange，在Kafka中就是Topic）
+
+![stream03](.\static\picture\stream03.png)
+
+> > Binder：很方便的连接中间件，屏蔽差异
+> >
+> > Channel：通道，是队列Queue的一种抽象，在消息通讯系统中就是实现存储和转发的媒介，通过Channel对队列进行配置
+> >
+> > Source和Sink：简单的可理解为 参照对象是Spring Cloud Stream自身，从Stream发布消息就是输出，接受消息就是输入。
+
+![stream04](.\static\picture\stream04.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
