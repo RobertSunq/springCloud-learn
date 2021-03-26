@@ -62,6 +62,10 @@ public class OrderController {
         }
     }
 
+    /**
+     * 负载均衡测试接口
+     * @return String
+     */
     @GetMapping(value = "/lb")
     public String getPaymentLB(){
         List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PROVIDER-SERVICE");
@@ -72,5 +76,10 @@ public class OrderController {
         URI uri = serviceInstance.getUri();
         return restTemplate.getForObject(uri+"/provider/payment/lb",String.class);
 
+    }
+
+    @GetMapping("/zipin")
+    public String paymentZipkin(){
+        return restTemplate.getForObject(PAYMENT_UTL+"/provider/payment/zipkin",String.class);
     }
 }

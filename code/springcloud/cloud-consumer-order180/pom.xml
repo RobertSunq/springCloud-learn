@@ -13,6 +13,11 @@
 
 
     <dependencies>
+        <!--包含了sleuth+zipkin-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
+        </dependency>
         <!--引入自己定义的api通用包，可以使用该包内存在的通用文件-->
         <dependency>
             <groupId>org.qing</groupId>

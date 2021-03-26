@@ -8,6 +8,8 @@ import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.MessageChannel;
 
+import javax.annotation.Resource;
+
 
 /**
  * @author: sunQB
@@ -19,6 +21,7 @@ import org.springframework.messaging.MessageChannel;
 @EnableBinding(Source.class) // 指信道channel和exchange绑定在一起,定义消息的推送管道
 public class IMessageProviderImpl implements IMessageProvider {
 
+    @Resource
     private MessageChannel output; // 消息发送管道
 
 
