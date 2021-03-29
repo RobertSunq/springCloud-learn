@@ -583,13 +583,39 @@ Span：表示调用链路来源，通俗的理解span就是一次请求信息
 
 ## SpringCloud Alibaba 入门简介
 
+参考文档：https://github.com/alibaba/spring-cloud-alibaba/blob/master/README-zh.md
+
+最新的pom配置：
+
+```xml
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+            <version>2.2.5.RELEASE</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
 
 
 
+## Nacos
 
+是什么：一个更易于构建的云原生应用的动态服务发现、配置管理和服务管理平台。即注册中心与配置中心。= Eureka + Config + Bus
 
+> github地址：  https://github.com/alibaba/Nacos 
+>
+> Nacos 地址：  https://nacos.io/zh-cn/ 
+>
+> nacos可以切换 AP 和 CP ,使用如下命令切换成CP模式：
+>
+> ​		curl -X PUT '$NACOS_SERVER:8848/nacos/v1/ns/operator/switches?entry=serverMode&value=CP'
 
-
+![nacos00](.\static\picture\nacos00.png)
 
 
 
