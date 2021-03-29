@@ -607,9 +607,19 @@ Span：表示调用链路来源，通俗的理解span就是一次请求信息
 
 是什么：一个更易于构建的云原生应用的动态服务发现、配置管理和服务管理平台。即注册中心与配置中心。= Eureka + Config + Bus
 
+支持负载均衡
+
 > github地址：  https://github.com/alibaba/Nacos 
 >
 > Nacos 地址：  https://nacos.io/zh-cn/ 
+>
+> 下载地址： https://github.com/alibaba/nacos/releases/
+>
+> 安装：
+>
+> ​		解压压缩包以后，进入bin目录，打开dos窗口，执行startup.cmd
+>
+> 访问地址 ： 【http://localhost:8848/nacos/】地址，默认账号密码都是nacos
 >
 > nacos可以切换 AP 和 CP ,使用如下命令切换成CP模式：
 >
@@ -617,9 +627,9 @@ Span：表示调用链路来源，通俗的理解span就是一次请求信息
 
 ![nacos00](.\static\picture\nacos00.png)
 
+> 设置虚拟映射启动：-DServer.port=19002
 
-
-
+![nacos01](.\static\picture\nacos01.png)
 
 
 
