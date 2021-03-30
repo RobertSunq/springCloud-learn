@@ -48,6 +48,7 @@
         <module>cloudalibaba-provider-payment19001</module>
         <module>cloudalibaba-provider-payment19003</module>
         <module>cloudalibaba-consumer-nacos-order183</module>
+        <module>cloudalibaba-config-nacos-client3377</module>
     </modules>
 
     <!-- 统一管理jar包版本，为pom定义一些常量，在pom中的其它地方可以直接引用 -->

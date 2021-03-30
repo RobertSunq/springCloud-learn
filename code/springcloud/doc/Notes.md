@@ -633,6 +633,122 @@ Span：表示调用链路来源，通俗的理解span就是一次请求信息
 
 
 
+**强一致性(C)、高可用(A)、分区容错性(P)**
+
+![nacos02](.\static\picture\nacos02.png)
+
+
+
+![nacos03](.\static\picture\nacos03.png)
+
+
+
+#### 为什么配置文件需要 application.yml 和bootstrap.yml 两个
+
+​		Nacos同Springcloud-config一样，在项目初始化时，要保证先从配置中心进行配置拉取，拉取配置之后，才能保证项目的正常启动，
+
+​		Springboot中配置文件的加载是存在优先级顺序的，<font color = red >bootstrap优先级高于application</font>
+
+###### Nacos中的dataid的组成格式与SpringBoot配置文件中的匹配规则
+
+
+
+![nacos04](.\static\picture\nacos04.png)
+
+![nacos05](.\static\picture\nacos05.png)
+
+
+
+###### Namespace+Group+Data ID
+
+![nacos06](.\static\picture\nacos06.png)
+
+
+
+默认情况：
+
+​				Namespace=public，Group=DEFAULT_GROUP，默认Cluster是DEFAULT
+
+​		nacos默认的命名空间是public，Namespace主要是用来实现隔离。
+
+​		Group默认是DEFAULT_GROUP，Group可以把不同的微服务划分到同一个分组里面去。
+
+​		Service就是微服务；一个Service可以包含多个CLuster（集群），Nacos默认Cluster是DEFAULT，Cluster是对指定微服务的一个虚拟划分。
+
+​		最后Instance，就是微服务的实例。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
