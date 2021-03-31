@@ -10,6 +10,8 @@ Netty
 
 Servlet的生命周期
 
+Nginx
+
 
 
 

@@ -677,17 +677,39 @@ Span：表示调用链路来源，通俗的理解span就是一次请求信息
 
 ​		最后Instance，就是微服务的实例。
 
+#### 集群版
 
+ ![nacos07](.\static\picture\nacos07.png)
 
+默认Nacos使用嵌入式数据库实现数据的存储。所以，如果启动多个默认配置下的Nacos节点，数据存储是存在一致性问题的。为了解决这个问题，Nacos采用了<font color = red>集中式存储的方式来支持集群化部署，目前支持MySQL的存储</font>    *Nacos默认使用其自带的嵌入式数据库Derby*
 
+Nacos支持三种部署模式
 
+- 单机模式 - 用于测试和单机试用
+- 集群模式 - 用于生产环境，确保高可用
+- 多集群模式 - 用于多数据中心场景
 
+Windows
 
+​	cmd starup.cmd 或者双击startup.cmd文件
 
+​	单机模式至此mysql
 
+- 1、安装数据库，版本要求：5.6.5+
+- 2、初始化mysql数据库，数据库初始化文件：conf/nacos-mysql.sql   
+- 3、修改conf/application.properties文件，增加支持mysql数据源配置（目前只支持mysql），添加mysql数据源的 url、username、password
+  -  (nacos-mysql.sql、application.properties存在于nacos-server的conf目录)
 
+```properties
+spring.datasource.platform=mysql
 
+db.num=1
+db.url=jdbc:mysql://192.168.1.104:3366/nacos_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&connectTimeout=1000&socketTimeout=3000&autoReconnect=true
+db.user=nacos_dev
+db.password=123456
+```
 
+在以单机模式启动nacos，nacos所有写入嵌入式数据库的数据都写到了mysql
 
 
 
