@@ -693,7 +693,11 @@ Windows
 
 ​	cmd starup.cmd 或者双击startup.cmd文件
 
-​	单机模式至此mysql
+linux
+
+​	starup.sh
+
+##### 单机模式配置持久化配置mysql
 
 - 1、安装数据库，版本要求：5.6.5+
 - 2、初始化mysql数据库，数据库初始化文件：conf/nacos-mysql.sql   
@@ -711,25 +715,61 @@ db.password=123456
 
 在以单机模式启动nacos，nacos所有写入嵌入式数据库的数据都写到了mysql
 
+##### 集群版配置
+
+> 一台linux虚拟机：nginx服务器，3个nacos服务，一个mysql数据库。
+
+> nginx的安装参考之前学，使用 ContOs7 至少需要安装gcc库，不然无法编译安装【yum install gcc】
+
+>  nacos下载linux版本的 tar.gz 包：https://github.com/alibaba/nacos/releases/download/1.1.4/nacos-server-1.1.4.tar.gz
+
+> mysql root用户密码为 Dkf!!2020
 
 
 
+1. 首先对 nacos 进行持久化操作，步骤类似单机版
+
+2. 对集群进行梳理
+
+   * 修改 nacos/conf 下的cluster文件，最好复制一份进行备份，添加如下内容:
+
+   ```python
+   # it is ip
+   # example
+   192.168.1.105:3333
+   192.168.1.105:4444
+   192.168.1.105:5555
+   ```
+
+3. 模拟三台nacos服务，编辑nacos的startup启动脚本，使其能够支持不同的端口启动多次
+
+   + nacos/bin 目录下有startup.sh	单机版启动直接执行即可，但是集群启动，我们希望可以类似其他软件的shell命令，<font color = red>传递不同的端口号启动不同的nacos实例</font>。
+
+   + 命令：./startup.sh -p 3333 就表示启动端口号为3333的nacos服务器实例，故需进行配置./startup.sh
+
+     ```python
+     #
+     ```
+
+     ![nacos08](.\static\picture\nacos08.png)
 
 
 
+![nacos09](.\static\picture\nacos09.png)
 
+4. Nginx的配置，由它作为负载均衡器
 
+   + 修改nginx的配置文件
 
+     /usr/local/nginx/conf/nigix.conf
 
+   + nginx.conf
 
+     ![nacos10](.\static\picture\nacos10.png)
 
+   + 按照指定启动
 
-
-
-
-
-
-
+     ./nginx -c /usr/local/nginx/conf/nginx.conf
 
 
 
