@@ -816,17 +816,33 @@ db.password=123456
 
 
 
+#### 降级规则
 
+##### 解释说明
 
+Sentinel的断路器是没有<font color="red">半开状态</font>的
 
++ RT(平均响应时间，秒级)
+  + 平均响应时间	<font color="blue"> 超出阈值</font> <font color="red">且</font> <font color="blue">在时间窗口内通过的请求 >= 5</font>，两个条件同时满足后触发降级
+  + 窗口期过后关闭断路器
+  + RT最大4900（等大的需要通过 -Dcsp.sentinel.statistic.max.rt=XXXX才能生效）
+  + ![sentinel00](.\static\picture\sentinel00.png)
 
++ 异常比例（秒级）
+  + QPS >= 5 且异常比例（秒级统计）超过阈值时，触发降级；时间窗口结束后，关闭降级
+  + ![sentinel01](\static\picture\sentinel01.png)
+  + ![sentinel02](\static\picture\sentinel02.png)
 
++ 异常数（分钟级）
+  + 异常数（分钟统计）超过阈值时，触发降级；时间窗口结束后，关闭降级。
+  + ![sentinel03](\static\picture\sentinel03.png)
+  + ![sentinel04](\static\picture\sentinel04.png)
 
+​        Sentinel 熔断降级会在调用链路中某个资源出现不稳定状态时（例如调用超时或异常比例升高），对这个资源的调用进行限制，让请求快速失败，避免影响岛其他的资源而导致级联错误。
 
+​		当资源被降级后，在接下来的降级时间窗口之内，对该资源的调用都自动熔断（默认行为是爆出DegradeException）。
 
-
-
-
+#### 热点key限流
 
 
 
