@@ -47,7 +47,10 @@
         <module>cloud-provider-sleuth18008</module>
         <module>cloudalibaba-provider-payment19001</module>
         <module>cloudalibaba-provider-payment19003</module>
+        <module>cloudalibaba-provider-payment19004</module>
+        <module>cloudalibaba-provider-payment19005</module>
         <module>cloudalibaba-consumer-nacos-order183</module>
+        <module>cloudalibaba-consumer-nacos-order184</module>
         <module>cloudalibaba-config-nacos-client3377</module>
         <module>cloudalibaba-sentinel-service18401</module>
     </modules>

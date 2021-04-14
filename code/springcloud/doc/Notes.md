@@ -844,9 +844,41 @@ Sentinel的断路器是没有<font color="red">半开状态</font>的
 
 #### 热点key限流
 
+![sentinel05](static/picture/sentinel05.png?raw=true)
+
+#### 系统自适应限流
+
+##### 说明
+
+​		Sentinel系统自适应限流从整体维度对应用入口流量进行控制，结合应用的Load、CPU使用率、总体平均RT、入口QPS和并发线程数等几个维度的监控指标，通过自适应的流控策略，让系统的入口流量和系统的负载达到一个平衡，让系统尽可能跑在最大吞吐量的同时保证系统整体的稳定性。
+
+​		系统保护规则是应用整体维度的，而不是资源维度的，并且仅对入口流量生效。入口流量指的是进入应用的流量（EntryType.IN），比如Web服务或者Dubbo服务端接收的请求，都属于入口流量
+
+##### 系统规则支持以下模式：
+
+![sentinel06](static\picture\sentinel06.png?raw=true)
+
+#### 自定义全局BlockHandler处理类
+
+![sentinel07](static/picture/sentinel07.png?raw=true)
+
+### sentinel整合ribbon+openFeign+fallback
+
+#### Ribbon系列
 
 
 
+
+
+#### Feign系列
+
+
+
+
+
+
+
+#### 熔断框架比较
 
 
 
