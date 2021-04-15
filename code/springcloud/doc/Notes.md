@@ -868,19 +868,13 @@ Sentinel的断路器是没有<font color="red">半开状态</font>的
 
 
 
-
-
 #### Feign系列
-
-
-
-
 
 
 
 #### 熔断框架比较
 
-
+![sentinel08](static\picture\sentinel08.png)
 
 
 
