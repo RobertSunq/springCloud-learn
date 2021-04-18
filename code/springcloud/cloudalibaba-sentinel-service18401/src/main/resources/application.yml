@@ -16,6 +16,15 @@ spring:
         # 默认8719端口。加入被占用会自动从8719开始一次+1扫描，知道找到未被占用的端口
         # 指定应用与Sentinel控制台交互的端口，应用本地会起一个该端口占用的HttpServer
         port: 8719
+      # sentinel 规则持久化相关配置
+      datasource:
+        ds1:
+          nacos:
+            server-addr: localhost:8848
+            dataId: ${spring.application.name}
+            groupId: DEFAULT_GROUP # 默认分组
+            data-type: json #
+            rule-type: flow # 流控规则
 
 management:
   endpoints:

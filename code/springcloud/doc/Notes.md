@@ -878,29 +878,344 @@ Sentinel的断路器是没有<font color="red">半开状态</font>的
 
 
 
+#### sentinel规则持久化
+
+就是在 sentinel 启动的时候，去 nacos 上读取相关规则配置信息，及将其相关的规则配置持久化到nacos上。
+
+nacos上的配置说明：
+
+```json
+[
+    {
+        "resource": "/testA",
+        "limitApp": "default",
+        "grade": 1,
+        "count": 1,
+        "strategy": 0,
+        "controlBehavior": 0,
+        "clusterMode": false
+    }
+]
+
+/**
+* 
+* resource: 资源名称
+* limitApp:	来源应用
+* grade: 阈值类型，0表示线程数，1表示QPS
+* count: 单机阈值
+* strategy: 流控模式。0表示直接，1表示关联，2表示链路
+* controlBehavior: 流控效果，0表示快速失败，2表示warm Up,2表示排队等待
+* clusterMode: 是否是集群
+* 
+*/
+```
+
+
+
+## Seata处理分布式事务
+
+一次业务操作需要跨多个数据源或需要跨多个系统进行远程调用，就会产生分布式事务问题：
+
+​		单体应用配拆分成微服务应用，原来的三个模块被拆分成为三个独立的应用，分别使用三个独立的数据源，业务操作需要调用三个服务来完成。此时每个服务内部的数据一致性由本地事务来保证，但是全局的数据一致性问题没法保证。
+
+![seata00](static\picture\seata00.png)
+
+一加三的套件
+
+![seata01](static\picture\seata01.png)
+
+
+
+![seata02](static\picture\seata02.png)
+
+新建模块的部分相关配置：
+
+（自己电脑上未解决seata连接数据库MySQL8.0.20的问题，故未作具体实现，替换了驱动包还是不好使）
+
+新建模块 cloudalibaba-seata-order2001 ：
+
+pom依赖：
+
+```xml
+	<dependencies>
+        <!-- seata -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>seata-all</artifactId>
+                    <groupId>io.seata</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.seata</groupId>
+            <artifactId>seata-all</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <!-- springcloud alibaba nacos 依赖,Nacos Server 服务注册中心 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+
+        <!-- open feign 服务调用 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
+        <!-- springboot整合Web组件 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- 持久层支持 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>1.1.10</version>
+        </dependency>
+        <!--mysql-connector-java-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <!--jdbc-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <!-- mybatis -->
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- 日常通用jar包 -->
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.qing</groupId>
+            <artifactId>cloud-api-commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+```
+
+yml配置：
+
+```yaml
+server:
+  port: 2001
+spring:
+  application:
+    name: seata-order-service
+  cloud:
+    alibaba:
+      seata:
+        # 自定义事务组，需要和当时在 seata/conf/file.conf 中的一致
+        tx-service-group: dkf_tx_group
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/seata_order
+    username: root
+    password: 123456
+
+
+# 注意，这是自定义的，原来的是mapper_locations
+mybatis:
+  mapperLocations: classpath:mapper/*.xml
+
+logging:
+  level:
+    io:
+      seata: info
+```
+
+config （特殊点）:
+
+```java
+//下面是两个配置类，这个是和mybatis整合需要的配置
+@Configuration
+@MapperScan({"com.dkf.springcloud.alibaba.dao"})
+public class MybatisConfig {
+}
+
+
+//这个是配置使用 seata 管理数据源，所以必须配置
+package com.dkf.springcloud.config;
+
+import com.alibaba.druid.pool.DruidDataSource;
+import io.seata.rm.datasource.DataSourceProxy;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.transaction.SpringManagedTransactionFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+
+import javax.sql.DataSource;
+
+@Configuration
+public class DataSourceProxyConfig {
+
+    @Value("${mybatis.mapperLocations}")
+    private String mapperLocations;
+
+    @Bean
+    @ConfigurationProperties(prefix = "spring.datasource")
+    public DataSource druidDataSource(){
+        return new DruidDataSource();
+    }
+
+    @Bean
+    public DataSourceProxy dataSourceProxy(DataSource dataSource){
+        return new DataSourceProxy(dataSource);
+    }
+
+    @Bean
+    public SqlSessionFactory sqlSessionFactoryBean(DataSourceProxy dataSourceProxy) throws Exception {
+        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+        sqlSessionFactoryBean.setDataSource(dataSourceProxy);
+        sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(mapperLocations));
+        sqlSessionFactoryBean.setTransactionFactory(new SpringManagedTransactionFactory());
+        return sqlSessionFactoryBean.getObject();
+    }
+}
+```
+
+主启动类：
+
+```java
+//这里必须排除数据源自动配置，因为写了配置类，让 seata 管理数据源
+@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+@EnableFeignClients
+@EnableDiscoveryClient
+public class SeataOrderMain2001 {
+
+    public static void main(String[] args) {
+        SpringApplication.run(SeataOrderMain2001.class,args);
+    }
+}
+```
+
+
+
+#### Seata使用
+
+```java
+	@Override
+	//只需要在业务类的方法上加上该注解，name值自定义唯一即可。
+    @GlobalTransactional(name = "dkf-create-order", rollbackFor = Exception.class)
+    public void create(Order order) {
+        log.info("--------》 开始创建订单");
+        orderDao.create(order);
+        log.info("--------》 订单微服务开始调用库存，做扣减---Count-");
+        storageService.decrease(order.getProductId(), order.getCount());
+        log.info("--------》 订单微服务开始调用库存，库存扣减完成！！");
+        log.info("--------》 订单微服务开始调用账户，账户扣减---money-");
+        accountService.decrease(order.getUserId(),order.getMoney());
+        log.info("--------》 订单微服务开始调用账户，账户扣减完成!!");
+        //修改订单状态，从0到1
+        log.info("--------》 订单微服务修改订单状态，start");
+        orderDao.update(order.getUserId(),0);
+        log.info("--------》 订单微服务修改订单状态，end");
+
+        log.info("--订单结束--");
+    }
+```
+
+![seata03](static\picture\seata03.png)
 
 
 
 
 
+![seata04](static\picture\seata04.png)
 
 
 
 
 
+### seata是什么
+
+​		Seata是一款开源的分布式事务解决方案，致力于提供高性能和简单易用的分布式事务服务。Seata将为用户提供了AT、TCC、SAGA和XA事务模式。
+
+#### AT模式
+
+前提
+
++ 基于支持本地ACID事务的关系型数据库
++ Java应用，通过JDBC访问数据库
+
+整体机制
+
++ 一阶段：业务数据和回滚日志记录在同一个本地事务种 提交，释放本地锁和连接资源
++ 二阶段
+  - 提交异步化，非常快速的完成
+  - 回滚通过一阶段的回滚日志进行反向补偿
+
+在第一阶段，Seata会拦截“业务SQL”
+
+1 解析SQL语义，找到“业务SQl”要更新的业务数据，在业务数据被更新前，将其保存成“before image”
+
+2 执行“业务SQL”更新业务数据，在业务数据更新之后
+
+3 其保存成“after image” 最后生成行锁
+
+以上操作全部在一个数据库事务内完成，这样保证了一阶段操作的原子性
 
 
 
+![seata05](static\picture\seata05.png)
 
 
 
+![seata06](static\picture\seata06.png)
 
 
 
+二阶段回滚：
+
+二阶段如果是回滚的话，Seata就需要回滚一阶段已经执行的“业务SQL”，还原业务数据。
+
+回滚方式便是用“before image”还原业务数据；但在还原之前要首先要校验脏写，对比“数据库当前业务数据”和“after image”，如果两份数据完全一致就说明没有脏写，可以还原业务数据，如果不一致就说明有脏写，出现脏写就需要转人工处理。
+
+![seata07](static\picture\seata07.png)
 
 
 
-
+![seata08](static\picture\seata08.png)
 
 
 
